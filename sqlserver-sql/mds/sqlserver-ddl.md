@@ -7,7 +7,7 @@
 # DDL - Data Definition Language
 * In SQL Server, DDL (Data Definition Language) encompasses a group of SQL commands that are used to create, modify, and remove the structure of database objects. These objects include tables, indexes, views, schemas, sequences, and more.
 * DDL statements are crucial for establishing the database schema, defining relationships between tables, and ensuring data integrity. They serve as the foundation for organizing and managing data within SQL Server databases.
->[sqlserver-ddl.sql](https://github.com/vikasreddymusku/sqlserver/blob/main/sqlserver-sql/code/sqlserver-ddl.sql)
+> [sqlserver-ddl.sql](../code/sqlserver-ddl.sql)
 
 ## Primary DDL commands in SQL Server:
 ### CREATE:
