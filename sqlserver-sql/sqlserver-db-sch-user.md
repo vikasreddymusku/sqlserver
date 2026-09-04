@@ -26,6 +26,8 @@ CREATE DATABASE tinitiate;
 -- SQL Server commands are generally case-insensitive
 -- We can use uppercase or lowercase or mix of both for commands
 -- But for best practice stick to any one format
+Output: <img width="323" height="172" alt="image" src="https://github.com/user-attachments/assets/6e55562e-e4ad-43a1-a3e6-30153e10395a" />
+
 ```
 ## User:
 * Users in SQL Server are login identities with permissions to interact with database objects.
