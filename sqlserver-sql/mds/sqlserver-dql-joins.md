@@ -1,9 +1,9 @@
-![SQL Server Tinitiate Image](sqlserver.png)
+![SQL Server Tinitiate Image](../sqlserver.png)
 
 # SQL Server Tutorial
 &copy; TINITIATE.COM
 
-##### [Back To Contents](./README.md)
+##### [Back To Contents](../README.md)
 
 # DQL - Joins
 * A join in SQL is used to combine rows from two or more tables based on a related column between them.
@@ -95,7 +95,7 @@ CROSS JOIN employees.dept d;
 
 
 
-##### [Back To Contents](./README.md)
+##### [Back To Contents](../README.md)
 ***
 | &copy; TINITIATE.COM |
 |----------------------|

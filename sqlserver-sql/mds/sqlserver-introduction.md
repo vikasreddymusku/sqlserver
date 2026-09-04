@@ -1,9 +1,9 @@
-![SQL Server Tinitiate Image](sqlserver.png)
+![SQL Server Tinitiate Image](../sqlserver.png)
 
 # SQL Server Tutorial
 &copy; TINITIATE.COM
 
-##### [Back To Contents](./README.md)
+##### [Back To Contents](../README.md)
 
 # Introduction To SQL Server
 * SQL Server is a comprehensive relational database management system (RDBMS) developed by Microsoft.
@@ -44,7 +44,7 @@
 * SQL Server is a robust and flexible RDBMS offering extensive capabilities for data storage, processing, and analytics.
 * Whether developing a lightweight app or a mission-critical enterprise solution, SQL Server delivers the essential tools and performance to meet your database needs.
 
-##### [Back To Contents](./README.md)
+##### [Back To Contents](../README.md)
 ***
 | &copy; TINITIATE.COM |
 |----------------------|

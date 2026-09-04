@@ -1,9 +1,9 @@
-![SQL Server Tinitiate Image](sqlservericon.png)
+![SQL Server Tinitiate Image](../sqlserver.png)
 
 # SQL Server Tutorial
 &copy; TINITIATE.COM
 
-##### [Back To Contents](./README.md)
+##### [Back To Contents](../README.md)
 
 # Employee DB Assignments
 

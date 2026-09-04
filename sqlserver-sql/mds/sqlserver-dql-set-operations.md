@@ -1,9 +1,9 @@
-![SQL Server Tinitiate Image](sqlserver.png)
+![SQL Server Tinitiate Image](../sqlserver.png)
 
 # SQL Server Tutorial
 &copy; TINITIATE.COM
 
-##### [Back To Contents](./README.md)
+##### [Back To Contents](../README.md)
 
 # DQL - Set Operations
 * Set operations in SQL are used to combine or compare the results of two or more queries.
@@ -87,7 +87,7 @@ EXCEPT
 SELECT projectno AS grade FROM employees.projects;
 ```
 
-##### [Back To Contents](./README.md)
+##### [Back To Contents](../README.md)
 ***
 | &copy; TINITIATE.COM |
 |----------------------|

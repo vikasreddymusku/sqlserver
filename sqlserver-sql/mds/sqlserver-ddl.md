@@ -1,9 +1,8 @@
-![SQL Server Tinitiate Image](sqlserver.png)
-
+![SQL Server Tinitiate Image](../sqlserver.png)
 # SQL Server Tutorial
 &copy; TINITIATE.COM
 
-##### [Back To Contents](./README.md)
+##### [Back To Contents](../README.md)
 
 # DDL - Data Definition Language
 * In SQL Server, DDL (Data Definition Language) encompasses a group of SQL commands that are used to create, modify, and remove the structure of database objects. These objects include tables, indexes, views, schemas, sequences, and more.
@@ -116,7 +115,7 @@ CREATE TABLE employees.dept (
 );
 ```
 
-##### [Back To Contents](./README.md)
+##### [Back To Contents](../README.md)
 ***
 | &copy; TINITIATE.COM |
 |----------------------|

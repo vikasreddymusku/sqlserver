@@ -1,9 +1,8 @@
-![SQL Server Tinitiate Image](sqlserver.png)
-
+![SQL Server Tinitiate Image](../sqlserver.png)
 # SQL Server Tutorial
 &copy; TINITIATE.COM
 
-##### [Back To Contents](./README.md)
+##### [Back To Contents](../README.md)
 
 # DML - Data Manipulation Language
 * In SQL Server, Data Manipulation Language (DML) consists of SQL commands that allow users to manipulate data within database objects.
@@ -79,7 +78,7 @@ DELETE FROM employees.dept WHERE deptno = 3000;
 DELETE FROM employees.emp WHERE empno = 101;
 ```
 
-##### [Back To Contents](./README.md)
+##### [Back To Contents](../README.md)
 ***
 | &copy; TINITIATE.COM |
 |----------------------|
