@@ -15,7 +15,7 @@
 
     * **BIGINT** - Stores whole numbers from -9223372036854775808 to 9223372036854775807. 
         * **Example:** `employee_id BIGINT`.
-    * **DECIMAL** - Stores numbers with a fixed number of decimal places. For example, DECIMAL(5,2) can store numbers from -9999.99 to 9999.99. 
+    * **DECIMAL** - Stores numbers with a fixed number of decimal places. For example, DECIMAL(5,2) can store numbers from -999.99 to 999.99. 
         * **Example:** `price DECIMAL(10,2)`.
     * **NUMERIC** - Stores numbers with a variable number of decimal places. 
         * **Example:** `quantity NUMERIC(7,2)`.
