@@ -55,6 +55,25 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
 INSERT INTO employees.emp (empno, ename, sal, deptno)
  VALUES (15, '4F', 12000.00, 5000);
 ```
+```output
+Output:  
+   | deptno | dname      | loc  |
+   |    111 | TECHNOLOGY | NULL |
+   |    211 | FACTORY    | NULL |
+   |    311 | RETAIL     | NULL |
+   |   1000 | PRODUCTION | NULL |
+   |   2000 | FOUNDRY    | NULL |
+   |   3000 | STORES     | NULL |
+
+For employee 101:
+   | empno | ename    |     sal | deptno |
+   |   101 | John Doe | 5000.00 |   1000 |
+
+After salary UPDATE:
+   | empno | ename    |     sal |
+   |   101 | John Doe | 6200.00 |
+
+```
 
 ### UPDATE:
 * This command is used to modify existing data in a table.
