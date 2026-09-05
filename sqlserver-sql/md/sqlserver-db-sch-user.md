@@ -28,9 +28,7 @@ CREATE DATABASE tinitiate;
 
 
 ```
-```output
-Output:
-```  
+
 
 
 ## User:
@@ -60,9 +58,7 @@ CREATE USER tiuser WITH PASSWORD = 'Tinitiate!23';
 -- Create a user named 'developer' with the password 'Tinitiate!23'
 CREATE USER developer WITH PASSWORD = 'Tinitiate!23';
 ```
-```output
-Output:
-```
+
 ## Schema:
 * A schema in SQL Server is a logical namespace within a database to help organize objects efficiently.
 * Schemas make it easier to manage permissions, object naming, and grouping.
@@ -78,9 +74,7 @@ CREATE SCHEMA employees AUTHORIZATION dbo;
 -- Change the authorization of the schema to tiuser
 ALTER AUTHORIZATION ON SCHEMA::employees TO tiuser;
 ```
-```output
-Output:
-```
+
 
 ##### [Back To Contents](../README.md)
 ***
