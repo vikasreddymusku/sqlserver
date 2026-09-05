@@ -25,7 +25,7 @@ WHERE job <> 'manager';
 
 
 -- IN Operator:
--- Retrieve employees from departments 10 and 20
+-- Retrieve employees from departments 10, 20, and 30
 SELECT *
 FROM employees.emp
 WHERE deptno IN (10, 20, 30);
@@ -33,7 +33,7 @@ WHERE deptno IN (10, 20, 30);
 
 
 -- NOT IN Operator:
--- Retrieve employees not from departments 10 and 20
+-- Retrieve employees not from departments 10, 20, and 30
 SELECT *
 FROM employees.emp
 WHERE deptno NOT IN (10, 20, 30);

@@ -72,12 +72,12 @@ SELECT job, AVG(sal) AS avg_salary
 FROM employees.emp 
 GROUP BY job;
 
--- Find the average salary of employees hired after 1982
+-- Find the average salary of employees hired after 1985
 SELECT AVG(sal) AS avg_salary 
 FROM employees.emp 
 WHERE YEAR(hiredate) > 1985;
 
--- Identify the departments where the average salary is higher than $2500
+-- Identify the departments where the average salary is higher than $1500
 SELECT deptno 
 FROM employees.emp 
 GROUP BY deptno 

@@ -21,7 +21,7 @@ SELECT DATEPART(DAY, hiredate) FROM employees.emp;
 
 
 -- Date Difference Function (DATEDIFF):
--- Calculate the age of each employee based on their 'hiredate'
+-- Count YEAR boundaries crossed since each employee's hiredate (not exact tenure)
 SELECT DATEDIFF(YEAR, hiredate, GETDATE()) FROM employees.emp;
 
 
@@ -151,8 +151,8 @@ SELECT DATEADD(HOUR, 5, CAST(GETDATE() AS DATETIME)) AS adjusted_datetime;
 SELECT 
     '2024-04-17 15:30:00' AS OriginalDateTime,
     (CAST('2024-04-17 15:30:00' AS DATETIME) AT TIME ZONE 'UTC') AS UTCDateTime,
-    SWITCHOFFSET(CAST('2024-04-17 15:30:00' AS DATETIME) AT TIME ZONE 'UTC', DATEPART(TZOFFSET, SYSDATETIMEOFFSET() AT TIME ZONE 'Eastern Standard Time')) AS ESTDateTime,
-    SWITCHOFFSET(CAST('2024-04-17 15:30:00' AS DATETIME) AT TIME ZONE 'UTC', DATEPART(TZOFFSET, SYSDATETIMEOFFSET() AT TIME ZONE 'India Standard Time')) AS ISTDateTime;
+    (CAST('2024-04-17 15:30:00' AS DATETIME) AT TIME ZONE 'UTC' AT TIME ZONE 'Eastern Standard Time') AS EasternDateTime,
+    (CAST('2024-04-17 15:30:00' AS DATETIME) AT TIME ZONE 'UTC' AT TIME ZONE 'India Standard Time') AS ISTDateTime;
 
 -- Cast a DateTime Timezone to another TimeZone:
 SELECT 

@@ -94,9 +94,10 @@ ORDER BY deptno ASC, sal DESC;
 
 
 -- TOP Clause:
--- Retrieve the first 5 employees
+-- Retrieve the first 5 employees by employee number
 SELECT TOP 5 *
-FROM employees.emp;
+FROM employees.emp
+ORDER BY empno;
 
 -- Retrieve the employees with the top 10 highest salaries
 SELECT TOP 10 *
