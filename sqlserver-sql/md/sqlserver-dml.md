@@ -73,6 +73,9 @@ After salary UPDATE:
    | empno | ename    |     sal |
    |   101 | John Doe | 6200.00 |
 
+After DELETE of employee 101:
+   No rows returned.
+
 ```
 
 ### UPDATE:
