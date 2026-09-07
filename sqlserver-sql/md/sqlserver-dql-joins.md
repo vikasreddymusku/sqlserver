@@ -6,6 +6,8 @@
 ##### [Back To Contents](../README.md)
 
 # DQL - Joins
+
+> **[sqlserver-dql-joins.sql](../code/sqlserver-dql-joins.sql) [CTRL + CLICK]**
 * A join in SQL is used to combine rows from two or more tables based on a related column between them.
 * The related column is typically a foreign key in one table that references the primary key in another table.
 * Joins allow you to retrieve data from multiple tables in a single query, enabling you to correlate data from different sources.
@@ -91,6 +93,18 @@ FULL JOIN employees.dept d ON e.deptno = d.deptno;
 SELECT e.*, d.*
 FROM employees.emp e
 CROSS JOIN employees.dept d;
+```
+
+```output
+Output:
+264 rows returned (44 employees × 6 departments).
+Representative rows:
+   | empno | ename | deptno | dname      |
+   |  7369 | smith |     10 | accounting |
+   |  7369 | smith |     20 | research   |
+   |  7369 | smith |     30 | sales      |
+   |  7369 | smith |     40 | operations |
+   |  7369 | smith |     50 | techsupport|
 ```
 
 

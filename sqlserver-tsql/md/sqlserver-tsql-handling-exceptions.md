@@ -6,6 +6,8 @@
 ##### [Back To Contents](../README.md)
 
 # Handling Exceptions
+
+> **[sqlserver-tsql-handling-exceptions.sql](../code/sqlserver-tsql-handling-exceptions.sql) [CTRL + CLICK]**
 The core of T-SQL exception handling revolves around the TRY...CATCH block. This structure allows you to gracefully manage errors that occur during query execution, preventing the entire batch from failing and enabling you to take corrective action.
 
 ## Error Functions
@@ -42,6 +44,11 @@ BEGIN CATCH
         END
 END CATCH
 ```
+
+```output
+Output:
+Error: Cannot insert duplicate employee ID.
+```
 * We use a `TRY...CATCH` block to handle exceptions.
 * Inside the TRY block, we attempt to insert a new employee into the emp table.
 * If an error occurs (such as a duplicate key violation), the execution is transferred to the CATCH block.
@@ -59,30 +66,66 @@ END CATCH
 ```sql
 SELECT ERROR_NUMBER() AS ErrorNumber;
 ```
+
+```output
+Output:
+When run by itself outside a CATCH block: NULL.
+Inside CATCH: returns the current error number.
+```
 **ERROR_MESSAGE()**
 * Returns the error message text of the error that caused the CATCH block to be executed.
 ``` sql
 SELECT ERROR_MESSAGE() AS ErrorMessage;
+```
+
+```output
+Output:
+When run by itself outside a CATCH block: NULL.
+Inside CATCH: returns the current error message.
 ```
 **ERROR_SEVERITY()**
 * Returns the severity level of the error that caused the CATCH block to be executed.
 ```sql
 SELECT ERROR_SEVERITY() AS ErrorSeverity;
 ```
+
+```output
+Output:
+When run by itself outside a CATCH block: NULL.
+Inside CATCH: returns the current error severity.
+```
 **ERROR_STATE()**
 * Returns the state number of the error that caused the CATCH block to be executed.
 ```sql
 SELECT ERROR_STATE() AS ErrorState;
+```
+
+```output
+Output:
+When run by itself outside a CATCH block: NULL.
+Inside CATCH: returns the current error state.
 ```
 **ERROR_PROCEDURE()**
 * Returns the name of the stored procedure or trigger where the error occurred.
 ```sql
 SELECT ERROR_PROCEDURE() AS ErrorProcedure;
 ```
+
+```output
+Output:
+When run by itself outside a CATCH block: NULL.
+Inside CATCH: returns the procedure/trigger name when available.
+```
 **ERROR_LINE()**
 * Returns the line number within the routine that caused the error.
 ```sql
 SELECT ERROR_LINE() AS ErrorLine;
+```
+
+```output
+Output:
+When run by itself outside a CATCH block: NULL.
+Inside CATCH: returns the line number where the current error occurred.
 ```
 These error functions can only be used within a `CATCH` block and are very useful for diagnosing and handling errors in SQL Server. They provide detailed information about the error, which can be logged or used to take corrective action.
 
@@ -129,6 +172,12 @@ BEGIN CATCH
     THROW;
 END CATCH;
 ```
+
+```output
+Output:
+If the insert succeeds, the transaction commits and the success message is printed.
+If an error occurs, the CATCH block rolls back and prints the error details.
+```
 ### Re-throwing Errors with THROW
 The THROW statement is the modern and preferred way to re-raise an exception in a CATCH block. It maintains the original error information (like line number and severity) and returns it to the calling application or a higher-level CATCH block. This is a significant improvement over the older RAISERROR statement.
 
@@ -151,6 +200,12 @@ BEGIN CATCH
     -- preserving its error number, severity, state, etc.
     THROW;
 END CATCH;
+```
+
+```output
+Output:
+Expected error: Divide by zero error encountered.
+THROW re-raises the original SQL Server error.
 ```
 ### XACT_STATE() Function
 The XACT_STATE() function provides valuable information about the state of the current transaction. It can be used in a CATCH block to determine if a transaction is committable, uncommittable, or if there is no active transaction. This is a more robust alternative to just checking @@TRANCOUNT.
@@ -192,6 +247,13 @@ END CATCH;
 SET XACT_ABORT OFF;
 ```
 
+```output
+Output:
+For the intentional foreign-key failure with XACT_ABORT ON:
+XACT_STATE() = -1
+The transaction is rolled back.
+```
+
 ```sql
 
 -- Assume you have an 'errors_log' table for logging
@@ -218,6 +280,11 @@ BEGIN CATCH
     THROW;
 END CATCH;
 
+```
+
+```output
+Output:
+On an error, one row is inserted into errors_log with the error number, message and current error_time.
 ```
 ##### [Back To Contents](../README.md)
 ***

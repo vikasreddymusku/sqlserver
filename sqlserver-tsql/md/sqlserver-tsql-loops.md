@@ -6,6 +6,8 @@
 ##### [Back To Contents](../README.md)
 
 # Loops
+
+> **[sqlserver-tsql-loops.sql](../code/sqlserver-tsql-loops.sql) [CTRL + CLICK]**
 * Loops are used to execute a block of code repeatedly based on a condition. 
 
 ## WHILE Loop
@@ -33,6 +35,11 @@ BEGIN
 END
 
 ```
+
+```output
+Output:
+All non-NULL employee salaries are increased by 10%, one row at a time.
+```
 #### Efficient Set-Based Method:
 
 ```sql
@@ -40,6 +47,11 @@ END
 UPDATE employees.emp
 SET sal = sal * 1.10;
 
+```
+
+```output
+Output:
+All non-NULL employee salaries are increased by 10% in one set-based UPDATE.
 ```
 This single statement is the preferred method for updating all employee salaries.
 
@@ -75,6 +87,15 @@ BEGIN
 END
 
 ```
+
+```output
+Output:
+Hierarchy for Employee: JONES
+----------------------------
+Level 1: jones
+Level 2: king
+The loop stops when the next employee ID becomes NULL.
+```
 * In this example, we use a `WHILE` loop to increase the salaries of all employees in the emp table by 10%. The loop continues until there are no more employees to update.
 
 ## FOR Loop
@@ -102,6 +123,13 @@ BEGIN
 END
 ```
 
+```output
+Output:
+Pulse
+Streamline
+SwiftSync
+```
+
 ```sql
 DECLARE @EmpID INT = 7521; -- Start with WARD
 DECLARE @MgrID INT;
@@ -123,6 +151,13 @@ BEGIN
     PRINT 'Manager Name: ' + @MgrName;
 END;
 GO
+```
+
+```output
+Output:
+Manager chain for WARD:
+Manager Name: blake
+Manager Name: king
 ```
 * In this example, we use a `WHILE` loop to print the names of the first 3 projects from the projects table. The loop runs as long as the @Counter variable is less than or equal to 3.
 
@@ -149,6 +184,12 @@ BEGIN
     IF @Count >= 10
         BREAK;
 END;
+```
+
+```output
+Output:
+Starting from 5 projects, projects 6 through 10 are added as 'New Project'.
+Final project count: 10.
 ```
 
 ##### [Back To Contents](../README.md)

@@ -6,6 +6,8 @@
 ##### [Back To Contents](../README.md)
 
 # Functions
+
+> **[sqlserver-tsql-functions.sql](../code/sqlserver-tsql-functions.sql) [CTRL + CLICK]**
 Functions are powerful, reusable database objects that encapsulate business logic and data processing. They are designed to compute a value or return a result set, and they are a key component of modular, efficient database design. Unlike stored procedures, which are executed as standalone statements, functions are typically called from within a query, allowing them to be seamlessly integrated into SELECT, WHERE, JOIN, and other clauses.
 
 ## Key Characteristics and Types
@@ -43,10 +45,20 @@ RETURN
     FROM employees.emp
     WHERE deptno = @DeptID;
 ```
+
+```output
+Output:
+Function created: dbo.GetEmployeesByDepartment(@DeptID).
+```
 * Execute the function
 ```sql
 -- Use the function to get employee details for department id 30
 SELECT * FROM dbo.GetEmployeesByDepartment(30);
+```
+
+```output
+Output:
+15 rows returned for department 30.
 ```
 * We create a table-valued function named `GetEmployeesByDepartment` that takes an integer parameter` @DeptID`, representing the department ID.
 * The function returns a table that contains the employee ID, employee name, and job title for all employees who work in the department specified by` @DeptID`.
@@ -67,12 +79,23 @@ RETURN
     FROM employees.emp
     WHERE @DeptID IS NULL OR deptno = @DeptID;
 ```
+
+```output
+Output:
+Function created: employees.GetEmployeesByDepartmentDefault(@DeptID).
+```
 * Execute the function
 ``` sql
 -- Use the function without specifying a department ID
 SELECT * FROM employees.GetEmployeesByDepartmentDefault(DEFAULT);
 -- Use the function with a specific department ID
 SELECT * FROM employees.GetEmployeesByDepartmentDefault(10);
+```
+
+```output
+Output:
+DEFAULT -> 44 rows returned.
+DeptID 10 -> 9 rows returned.
 ```
 * We create a table-valued function named `GetEmployeesByDepartmentDefault` with an  integer parameter `@DeptID`. We assign a default value of `NULL` to `@DeptID`.
 * The function returns a table containing the employee ID, employee name, and  job title.
@@ -100,6 +123,11 @@ END
 -- Use the function
 SELECT employees.GetEmployeeCount() AS EmployeeCount;
 ```
+
+```output
+Output:
+EmployeeCount = 44
+```
 ### Table-Valued Functions
 * A table-valued function returns a table. In a table-valued function, the `RETURN` statement is used to return a table variable or to conclude a `RETURN` clause that contains a `SELECT` statement.
 * Inline Table-Valued Function, the `RETURN` statement directly contains a `SELECT` statement that produces the result set.
@@ -112,6 +140,11 @@ RETURN (
 )
 -- Use the function
 SELECT * FROM employees.GetEmployeesByDepartment(20);
+```
+
+```output
+Output:
+13 rows returned for department 20.
 ```
 * In this example, the `GetEmployeesByDepartment` function returns a table containing the names and job titles of employees in a specified department.
 * In a multi-statement table-valued function, the `RETURN` statement is used to return a declared table variable.
@@ -129,6 +162,11 @@ BEGIN
 END
 -- Use the function
 SELECT * FROM employees.GetAllEmployees();
+```
+
+```output
+Output:
+44 rows returned by employees.GetAllEmployees().
 ```
 ### Multi-Statement Table-Valued Functions (MTVF):
 MTVFs can be less efficient because their internal logic is less visible to the optimizer than an inline TVF. The query optimizer cannot see the logic inside the function and therefore cannot generate an efficient plan. It assumes a fixed number of rows will be returned, which can lead to poor performance on large datasets. They are useful only when the logic requires multiple steps that cannot be expressed in a single SELECT statement.
@@ -169,6 +207,11 @@ JOIN employees.dept AS T2 ON T1.deptno = T2.deptno;
 -- less optimal plan when joined.
 ```
 
+```output
+Output:
+The MTVF returns employees from the supplied department number.
+```
+
 ### Combining Scalar Functions with APPLY
 The APPLY operator is a more advanced way to use functions. It is similar to a join but allows you to invoke a table-valued function for each row of an outer table expression. This is a common and powerful pattern.
 
@@ -181,6 +224,11 @@ Suppose you have a function that returns the employees for a given department. Y
 SELECT d.dname, e.ename, e.job
 FROM employees.dept AS d
 CROSS APPLY employees.GetEmployeesByDepartment(d.deptno) AS e;
+```
+
+```output
+Output:
+One row per employee is returned with dname, ename and job for departments having matching function rows.
 ```
 
 ### Key Points
@@ -210,6 +258,12 @@ BEGIN
 
     SELECT * FROM @EmployeeDetails;
 END
+```
+
+```output
+Output:
+Total number of employees: 44
+The department-10 table-valued function returns 9 rows, and @EmployeeDetails contains the same 9 rows.
 ```
 
 ##### [Back To Contents](../README.md)

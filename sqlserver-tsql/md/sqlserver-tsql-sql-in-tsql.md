@@ -6,6 +6,8 @@
 ##### [Back To Contents](../README.md)
 
 # SQL In TSQL
+
+> **[sqlserver-tsql-sql-in-tsql.sql](../code/sqlserver-tsql-sql-in-tsql.sql) [CTRL + CLICK]**
 ### Embedding SQL in T-SQL
 Embedding SQL within a T-SQL batch or a programming construct like a stored procedure is a fundamental skill. It allows you to use declarative SQL statements for data manipulation and querying alongside the procedural elements of T-SQL. This combination enables you to build dynamic, flexible, and powerful database applications.
 
@@ -89,6 +91,18 @@ END;
 SELECT * FROM tinitiate.invoicing.products;
 ```
 
+```output
+Output:
+Example first-run output:
+   Number of Products: 5
+   Product: 6 doesnt exists, Adding it NOW!
+   Rows Inserted 1
+
+Final added row:
+   | product_id | product_category | product_name | product_unit_price |
+   |          6 | kitchen          | Milk         |               1.17 |
+```
+
 ## To move from the procedural, row-by-row thinking of a BEGIN...END block to the set-based logic that SQL Server is optimized for.
 
 ### The MERGE Statement
@@ -119,6 +133,13 @@ WHEN NOT MATCHED BY TARGET THEN
     VALUES (source.product_id, source.product_category, source.product_name, source.product_unit_price)
 OUTPUT $action, inserted.*, deleted.*;
 GO
+```
+
+```output
+Output:
+First run (product 6 absent): $action = INSERT.
+Subsequent run (product 6 present): $action = UPDATE.
+The OUTPUT clause also returns the inserted and deleted row images.
 ```
 
 The MERGE statement can simplify the code and improve readability by expressing the lookup and conditional actions in one statement. The OUTPUT clause is an advanced feature that shows what action was taken (INSERT or UPDATE) and the state of the rows before and after the change.

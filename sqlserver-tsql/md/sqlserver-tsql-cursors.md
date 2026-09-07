@@ -6,6 +6,8 @@
 ##### [Back To Contents](../README.md)
 
 # Cursors
+
+> **[sqlserver-tsql-cursors.sql](../code/sqlserver-tsql-cursors.sql) [CTRL + CLICK]**
 A cursor is a database object used to process the rows of a result set one at a time. While cursors are a powerful tool for row-by-row operations, they're generally considered an anti-pattern in T-SQL due to significant performance drawbacks.
 
 ## When to Avoid Cursors 🚫
@@ -19,6 +21,11 @@ Instead of using a cursor to update each employee's salary one by one, a single 
 ```sql
 UPDATE employees.emp
 SET sal = sal * 0.90;
+```
+
+```output
+Output:
+All non-NULL salaries are reduced by 10% in one set-based UPDATE.
 ```
 
 Example 2: Set-Based Department Summary
@@ -55,6 +62,19 @@ LEFT JOIN
     employees.emp AS e ON d.deptno = e.deptno
 GROUP BY
     d.deptno, d.dname;
+```
+
+```output
+Output:
+Department summary created in employees.dept_summary.
+On clean training data before salary-changing demos:
+   | deptno | dname       | employee_count | total_salary | avg_salary |
+   |     10 | accounting  |              9 |     20200.00 |    2244.44 |
+   |     20 | research    |             13 |     25875.00 |    1990.38 |
+   |     30 | sales       |             15 |     21100.00 |    1507.14 |
+   |     40 | operations  |              2 |      2550.00 |    1275.00 |
+   |     50 | techsupport |              3 |      1500.00 |     500.00 |
+   |     60 | PRODUCTION  |              0 |         0.00 |       0.00 |
 ```
 
 ## When to Use Cursors
@@ -111,6 +131,15 @@ CLOSE EmployeeCursor;
 DEALLOCATE EmployeeCursor;
 ```
 
+```output
+Output:
+Cursor prints one line per employee in empno order, for example:
+7369 - smith
+7499 - allen
+7521 - ward
+...
+```
+
 ## Cursor with Dynamic SQL
 This administrative example executes one dynamic query for each user table. Object names are protected with `QUOTENAME`.
 
@@ -141,6 +170,12 @@ END;
 
 CLOSE TableCursor;
 DEALLOCATE TableCursor;
+```
+
+```output
+Output:
+The cursor executes a COUNT_BIG query for each user table and returns one RowCount result set per table.
+Exact counts depend on the current database contents.
 ```
 
 ##### [Back To Contents](../README.md)

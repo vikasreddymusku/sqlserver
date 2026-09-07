@@ -5,6 +5,8 @@
 ##### [Back To Contents](../README.md)
 
 # Database, Schema, and User
+
+> **[sqlserver-db-sch-user.sql](../code/sqlserver-db-sch-user.sql) [CTRL + CLICK]**
 * In SQL Server, a **database** represents a structured and organized collection of data.
 * A **schema** acts as a logical container used to group related database objects such as tables, views, and stored procedures.
 * A **user** refers to an identity that holds permission to interact with databases and access objects based on assigned roles.
@@ -28,7 +30,9 @@ CREATE DATABASE tinitiate;
 
 
 ```
-
+```output
+Output:
+```  
 
 
 ## User:
@@ -58,7 +62,12 @@ CREATE USER tiuser WITH PASSWORD = 'Tinitiate!23';
 -- Create a user named 'developer' with the password 'Tinitiate!23'
 CREATE USER developer WITH PASSWORD = 'Tinitiate!23';
 ```
-
+```output
+Output:
+   | user_name |
+   | developer |
+   | tiuser    |
+```
 ## Schema:
 * A schema in SQL Server is a logical namespace within a database to help organize objects efficiently.
 * Schemas make it easier to manage permissions, object naming, and grouping.
@@ -74,7 +83,11 @@ CREATE SCHEMA employees AUTHORIZATION dbo;
 -- Change the authorization of the schema to tiuser
 ALTER AUTHORIZATION ON SCHEMA::employees TO tiuser;
 ```
-
+```output
+Output:
+   | schema_name | authorization |
+   | employees   | tiuser        |
+```
 
 ##### [Back To Contents](../README.md)
 ***

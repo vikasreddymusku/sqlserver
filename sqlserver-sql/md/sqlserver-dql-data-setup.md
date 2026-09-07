@@ -6,6 +6,8 @@
 ##### [Back To Contents](../README.md)
 
 # DQL Data Setup
+
+> **[sqlserver-dql-data-setup.sql](../code/sqlserver-dql-data-setup.sql) [CTRL + CLICK]**
 * Data Query Language (DQL) is a powerful tool used to retrieve and manipulate data within a database management system.
 * Before diving into querying data that is to going into the details of Data Query Language (DQL) commands, it's essential to have a properly structured dataset to work with.
 * This preliminary step lays the groundwork for a comprehensive understanding of DQL operations, enabling users to effectively utilize DQL commands to query and manipulate data within a database management system.
@@ -114,6 +116,17 @@ CREATE TABLE employees.emp_projects
   CONSTRAINT fk_projectno FOREIGN KEY (projectno)
    REFERENCES employees.projects (projectno)
 );
+```
+
+```output
+Output:
+Tables created under employees schema:
+   | schema_name | table_name   |
+   | employees   | dept         |
+   | employees   | emp          |
+   | employees   | salgrade     |
+   | employees   | projects     |
+   | employees   | emp_projects |
 ```
 
 ## Insert data into the tables
@@ -233,6 +246,13 @@ VALUES
     (22, 8008, 2, '1987-01-15', NULL),
     (23, 8009, 5, '1983-10-01', '1984-10-01'),
     (24, 8010, 2, '1983-12-15', '1984-12-15');
+```
+
+```output
+Output:
+Training data loaded:
+   | Departments | Employees | SalaryGrades | Projects | EmployeeProjects |
+   |           6 |        44 |            6 |        5 |               24 |
 ```
 
 ##### [Back To Contents](../README.md)

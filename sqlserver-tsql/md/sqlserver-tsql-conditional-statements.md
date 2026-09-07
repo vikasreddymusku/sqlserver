@@ -6,6 +6,8 @@
 ##### [Back To Contents](../README.md)
 
 # Conditional Statements
+
+> **[sqlserver-tsql-conditional-statements.sql](../code/sqlserver-tsql-conditional-statements.sql) [CTRL + CLICK]**
 * `IF...ELSE` is a control-of-flow statement. `CASE` and `IIF` are conditional expressions that return values and can be used inside SQL statements.
 
 ## IF...ELSE Statement
@@ -22,6 +24,11 @@ ELSE
     BEGIN
         PRINT 'The department does not exist.';
     END
+```
+
+```output
+Output:
+The department exists.
 ```
 
 ```sql
@@ -42,6 +49,16 @@ ORDER BY
     d.dname;
 
 ```
+
+```output
+Output:
+   | Department  | Managers | Analysts | Clerks | TotalEmployees |
+   | accounting  |        3 |        0 |      5 |              9 |
+   | operations  |        0 |        0 |      0 |              2 |
+   | research    |        1 |        6 |      4 |             13 |
+   | sales       |        1 |        0 |      4 |             15 |
+   | techsupport |        0 |        0 |      0 |              3 |
+```
 * In this example, we check if there is a department named 'accounting' in the dept table. If it exists, we print a message indicating that the department exists. Otherwise, we print a message indicating that it does not exist.
 
 ## CASE Expression
@@ -55,6 +72,16 @@ SELECT
         ELSE 'High'
     END AS SalaryCategory
 FROM employees.emp;
+```
+
+```output
+Output:
+Representative SalaryCategory results:
+smith -> Low
+allen -> Medium
+ward -> Low
+jones -> Medium
+king -> High
 ```
 
 ```sql
@@ -75,6 +102,12 @@ FROM employees.emp
 WHERE job IN ('MANAGER', 'SALESMAN', 'CLERK');
 
 ```
+
+```output
+Output:
+The UPDATE changes salaries according to job category.
+The verification SELECT returns the affected MANAGER, SALESMAN and CLERK rows with their new salaries.
+```
 * In this example, we categorize employees into 'Low', 'Medium', and 'High' salary groups based on their salary in the emp table.
 
 ## IIF Function
@@ -85,6 +118,14 @@ SELECT
     sal,
     IIF(sal > (SELECT AVG(sal) FROM employees.emp), 'Above Average', 'Below Average') AS SalaryStatus
 FROM employees.emp;
+```
+
+```output
+Output:
+Representative IIF status before salary-changing demos:
+king (5000) -> Above Average
+smith (800) -> Below Average
+futureman (4500) -> Above Average
 ```
 
 ```sql
@@ -130,6 +171,12 @@ BEGIN CATCH
     THROW; -- Re-throw the original error.
 END CATCH;
 
+```
+
+```output
+Output:
+Error: New salary is not higher than the current max salary for department 20
+The transaction is rolled back.
 ```
 * In this example, we use the `IIF` function to check if each employee's salary is above the average salary in the emp table. The result is a column that indicates whether each employee's salary is 'Above Average' or 'Below Average'.
 

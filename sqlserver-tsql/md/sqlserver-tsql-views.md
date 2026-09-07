@@ -6,6 +6,8 @@
 ##### [Back To Contents](../README.md)
 
 # Views
+
+> **[sqlserver-tsql-views.sql](../code/sqlserver-tsql-views.sql) [CTRL + CLICK]**
 A view is a virtual table that is based on the result set of a SQL query. Views contain rows and columns, just like a real table, but they do not physically store data. Instead, they act as a stored query that presents data from one or more underlying tables.
 
 Views are used to simplify complex queries, enhance security by restricting access to sensitive data, and abstract the underlying data structure from users and applications.
@@ -25,12 +27,27 @@ FROM employees.emp
 WHERE job LIKE '%Manager%';
 ```
 
+```output
+Output:
+View created: vw_EmployeeInfo.
+```
+
 ### Querying a View
 Once a view is created, you can query it just like you would a regular table.
 
 ```sql
 
 SELECT * FROM vw_EmployeeInfo;
+```
+
+```output
+Output:
+   | empno | ename     | job     | deptno |
+   |  7566 | jones     | manager |     20 |
+   |  7698 | blake     | manager |     30 |
+   |  7782 | clark     | manager |     10 |
+   |  8003 | tony      | manager |     10 |
+   |  8020 | futureman | manager |     10 |
 ```
 
 ### Modifying and Dropping Views
@@ -57,6 +74,12 @@ WHERE empno = 7566;
 DROP VIEW vw_EmployeeInfo;
 ```
 
+```output
+Output:
+After ALTER, managers with sal > 2500 are jones, blake, tony and futureman.
+The simple-view UPDATE changes the matching base-table row, then the view is dropped.
+```
+
 ### Complex Views
 Complex views are a common practice for encapsulating intricate queries that involve multiple joins and aggregations into a simple, reusable object.
 
@@ -80,6 +103,11 @@ GROUP BY
     e.empno,
     e.ename,
     d.dname;
+```
+
+```output
+Output:
+The complex view returns one row per employee with department name and a comma-separated Projects list where assignments exist.
 ```
 
 * Joins: The joins connect employee data with their department and project information. LEFT JOIN is used to include employees who may not be assigned to any project.
@@ -125,6 +153,13 @@ END;
 GO
 ```
 
+```output
+Output:
+View created: vw_EmployeeDept.
+INSTEAD OF UPDATE trigger created: trg_UpdateEmployeeDept.
+No result set is returned by this creation block.
+```
+
 ## Indexed Views (Materialized Views)
 For complex views that are used frequently for reporting or analytics, a standard view's performance can be a bottleneck. An indexed view, also known as a materialized view, solves this by physically storing the view's result set on disk.
 
@@ -158,6 +193,12 @@ GO
 CREATE UNIQUE CLUSTERED INDEX idx_ProductSales_ProductID
 ON vw_ProductSales (ProductID);
 GO
+```
+
+```output
+Output:
+Indexed view created together with its unique clustered index.
+The exact summarized rows depend on the Product/Sales source tables.
 ```
  
 

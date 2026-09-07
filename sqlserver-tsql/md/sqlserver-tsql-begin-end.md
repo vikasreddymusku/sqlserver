@@ -6,6 +6,8 @@
 ##### [Back To Contents](../README.md)
 
 # BEGIN...END
+
+> **[sqlserver-tsql-begin-end.sql](../code/sqlserver-tsql-begin-end.sql) [CTRL + CLICK]**
 * In T-SQL, `BEGIN` and `END` are used to define a block of one or more statements as a single unit.
 * This is useful when you need to group multiple operations under control-of-flow constructs or within stored routines. `BEGIN...END` itself does not start or end a transaction.
 
@@ -40,6 +42,17 @@ BEGIN
 END;
 ```
 
+```output
+Output:
+Messages:
+   Sum of Num1 and Num2
+   Sum: 21
+   21
+Result set:
+   | result |
+   |     21 |
+```
+
 ## Reassigning a variable and performing arithmetic
 We are declaring and initializing variables, reassigning, performing a simple addition operation, and then printing the result. 
 ### Declaration
@@ -66,6 +79,15 @@ BEGIN
     PRINT @data2+10; -- 30
     PRINT @data2;    -- 20
 END;
+```
+
+```output
+Output:
+Messages:
+   10
+   20
+   30
+   20
 ```
 ### BEGIN...END with IF...ELSE Statements
 This is a fundamental use case. The BEGIN...END block allows you to execute more than one statement within the IF or ELSE clauses.
@@ -101,6 +123,14 @@ GO
 
 ```
 
+```output
+Output:
+For the supplied value 'Sales' on a case-insensitive SQL Server collation:
+   Updating salaries for the Sales department...
+   Salaries updated successfully.
+The matching Sales-department salaries are increased by 5%.
+```
+
 ###  BEGIN...END with TRY...CATCH Blocks
 This is the standard for modern T-SQL error handling. The BEGIN...END block is used to define the section of code that you want to monitor for errors.
 
@@ -128,6 +158,14 @@ BEGIN CATCH
     PRINT 'Error Message: ' + ERROR_MESSAGE();
 END CATCH;
 GO
+```
+
+```output
+Output:
+Attempting division...
+An error occurred during the division.
+Error Number: 8134
+Error Message: Divide by zero error encountered.
 ```
 ## Common Use Cases
 * **Control-of-Flow** - Group statements under IF…ELSE or WHILE so they execute together.

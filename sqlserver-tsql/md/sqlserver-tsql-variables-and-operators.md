@@ -6,6 +6,8 @@
 ##### [Back To Contents](../README.md)
 
 # Variables & Operators
+
+> **[sqlserver-tsql-variables-and-operators.sql](../code/sqlserver-tsql-variables-and-operators.sql) [CTRL + CLICK]**
 ## Variables:
 * Variables are named placeholders that store single values of a specific data type.
 ### Step 1: Declare Variables
@@ -32,6 +34,14 @@ FROM employees.emp e
 INNER JOIN employees.dept d ON e.deptno = d.deptno
 WHERE d.dname = @DeptName AND e.sal > @MinSalary;
 ```
+
+```output
+Output:
+   | ename   | job      | sal     |
+   | allen   | salesman | 1600.00 |
+   | blake   | manager  | 2850.00 |
+   | natasha | salesman | 1600.00 |
+```
 * We join the emp and dept tables using an `INNER JOIN` on the deptno field to associate employees with their departments.
 * We use the `WHERE` clause to filter the results based on the department name (d.dname = @DeptName) and the minimum salary (e.sal > @MinSalary).
 * The > operator is used to compare the employee's salary with the minimum salary stored in the @MinSalary variable.
@@ -42,6 +52,11 @@ WHERE d.dname = @DeptName AND e.sal > @MinSalary;
   -- This will cause an error because the subquery returns multiple rows
    DECLARE @EmployeeCount INT;
   SET @EmployeeCount = (SELECT COUNT(*) FROM Employees.emp GROUP BY deptno);
+```
+
+```output
+Output:
+Expected error: Subquery returned more than 1 value.
 ```
 -- Msg 512, Subquery returned more than 1 value. This is not permitted...
  
@@ -55,6 +70,12 @@ SELECT @LastSalary = sal FROM employees.emp ORDER BY sal;
 -- The result will be the salary from the last row returned by this SELECT.
 -- If the SELECT returns no rows, @LastSalary keeps its current value.
 SELECT @LastSalary AS 'LastSalaryFromSelect';
+```
+
+```output
+Output:
+LastSalaryFromSelect = 5000.00
+The assignment follows the ORDER BY shown and the final assigned row supplies the variable value.
 ```
 
 
@@ -76,6 +97,12 @@ SELECT 'Value in Batch 2:', @myVariable;
 GO
 
 ```
+
+```output
+Output:
+Batch 1 returns @myVariable = 100.
+Batch 2 cannot reference @myVariable because the GO batch separator ends its scope.
+```
 This example demonstrates how a variable declared in one batch is not recognized in another batch.
 ## Operators
 ### Arithmetic Operators
@@ -83,42 +110,96 @@ This example demonstrates how a variable declared in one batch is not recognized
 ```sql
   SELECT 10 + 5 AS Result;  -- Result: 15
 ```   
+
+```output
+Output:
+   | Result |
+   |     15 |
+```
 * **Multiplication**: Multiplies one number times another
 ```sql
 SELECT 10 * 5 AS Result;  -- Result: 50
+```
+
+```output
+Output:
+   | Result |
+   |     50 |
 ```
 * **Division**: Divides one number by another.
 ```sql
 SELECT 10 / 5 AS Result;  -- Result: 2
 ```
+
+```output
+Output:
+   | Result |
+   |      2 |
+```
 * **Modulo**: Returns the remainder of one number divided by another.
 ```sql
 SELECT 10 % 3 AS Result;  -- Result: 1
+```
+
+```output
+Output:
+   | Result |
+   |      1 |
 ```
 ### Comparison Operators : 
 * **Equal to**: Checks if two values are equal.
 ```sql
 SELECT CASE WHEN 10 = 10 THEN 'True' ELSE 'False' END AS Result;  
 ```  
+
+```output
+Output:
+True
+```
 * **Greater than**: Checks if the left value is greater than the right value.
 ```sql
 SELECT CASE WHEN 10 > 5 THEN 'True' ELSE 'False' END AS Result;  
 ``` 
+
+```output
+Output:
+True
+```
 * **Less than**: Checks if the left value is less than the right value.
 ```sql
 SELECT CASE WHEN 5 < 10 THEN 'True' ELSE 'False' END AS Result; 
+```
+
+```output
+Output:
+True
 ```
 * **Greater than or equal to**: Checks if the left value is greater than or equal to the right value.
 ```sql
 SELECT CASE WHEN 10 >= 10 THEN 'True' ELSE 'False' END AS Result;
 ``` 
+
+```output
+Output:
+True
+```
 * **Less than or equal to**: Checks if the left value is less than or equal to the right value.
 ```sql
 SELECT CASE WHEN 5 <= 10 THEN 'True' ELSE 'False' END AS Result;  
 ```
+
+```output
+Output:
+True
+```
 * **<> or != (Not equal to)**: Checks if two values are not equal.
 ```sql
 SELECT CASE WHEN 10 != 5 THEN 'True' ELSE 'False' END AS Result; 
+```
+
+```output
+Output:
+True
 ```
 
 ##### [Back To Contents](../README.md)

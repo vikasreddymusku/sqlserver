@@ -6,6 +6,8 @@
 ##### [Back To Contents](../README.md)
 
 # DQL - Date Functions
+
+> **[sqlserver-dql-date-functions.sql](../code/sqlserver-dql-date-functions.sql) [CTRL + CLICK]**
 * Date functions in SQL Server are used to perform various operations on date and timestamp data stored in the database.
 * They allow for manipulation, extraction, formatting, and calculation of dates and times.
 
@@ -16,17 +18,34 @@
 -- Retrieve the current date and time
 SELECT GETDATE();
 ```
+
+```output
+Output:
+Example Result: current server date/time.
+Value varies each time the query is executed.
+```
 ### Date Part Function (DATEPART):
 * Returns a specific component (such as year, month, day) from a date or timestamp.
 ```sql
 -- Retrieve the day of the month from the 'hiredate' column
 SELECT DATEPART(DAY, hiredate) FROM employees.emp;
 ```
+
+```output
+Output:
+Representative DAY values: smith=17, allen=20, ward=22, jones=2, martin=28.
+```
 ### Date Difference Function (DATEDIFF):
 * Returns the count of specified datepart boundaries crossed between two dates. It does not calculate an exact elapsed interval.
 ```sql
 -- Count YEAR boundaries crossed since each employee's hiredate (not exact tenure)
 SELECT DATEDIFF(YEAR, hiredate, GETDATE()) FROM employees.emp;
+```
+
+```output
+Output:
+Example Result: YEAR-boundary counts vary with the execution date.
+NULL hiredate returns NULL.
 ```
 ### Date Addition/Subtraction:
 * Adds or subtracts a specified interval (such as days, months) from a date or timestamp.
@@ -36,6 +55,13 @@ SELECT DATEADD(DAY, 7, hiredate) FROM employees.emp;
 
 -- Subtract 6 months from the 'hiredate' column in the employees table
 SELECT DATEADD(MONTH, -6, hiredate) FROM employees.emp;
+```
+
+```output
+Output:
+Representative results for smith (1980-12-17):
++7 days  -> 1980-12-24
+-6 months -> 1980-06-17
 ```
 ### Date Formatting (FORMAT):
 * Formats a date or timestamp according to a specified format.
@@ -48,12 +74,29 @@ SELECT FORMAT(hiredate, 'MM-dd-yyyy') FROM employees.emp;
 SELECT FORMAT(hiredate, 'MM-yyyy-dd') FROM employees.emp;
 SELECT FORMAT(hiredate, 'dd-yyyy-MM') FROM employees.emp;
 ```
+
+```output
+Output:
+For smith (1980-12-17):
+yyyy-MM-dd -> 1980-12-17
+yyyy-dd-MM -> 1980-17-12
+dd-MM-yyyy -> 17-12-1980
+MM-dd-yyyy -> 12-17-1980
+MM-yyyy-dd -> 12-1980-17
+dd-yyyy-MM -> 17-1980-12
+```
 ### Weekday Function (DATEPART):
 * Returns the weekday number for a date. The numeric mapping depends on the current SET DATEFIRST setting.
 ```sql
 -- Retrieve the day of the week (1 for Sunday, 2 for Monday, etc.) from
 -- the 'hiredate' column
 SELECT DATEPART(WEEKDAY, hiredate) FROM employees.emp;
+```
+
+```output
+Output:
+Weekday numbers are returned for each hiredate.
+Exact numeric values depend on the current SET DATEFIRST setting.
 ```
 ### Date to String (Various formats):
 * You can convert a date to a string in various formats using the `CONVERT(arg1, arg2, arg3)` function.
@@ -91,6 +134,19 @@ FROM employees.emp;
 SELECT empno, ename, CONVERT(varchar, hiredate, 106) AS hiredate
 FROM employees.emp;
 ```
+
+```output
+Output:
+For smith (1980-12-17):
+23  -> 1980-12-17
+101 -> 12/17/1980
+103 -> 17/12/1980
+107 -> Dec 17, 1980
+112 -> 19801217
+105 -> 17-12-1980
+111 -> 1980/12/17
+106 -> 17 Dec 1980
+```
 ### DateTime to String (Various formats):
 * To convert a datetime to a string in various formats in SQL Server, you can use the `CONVERT(arg1, arg2, arg3)` function, same like date to a string but with different format codes.
 ```sql
@@ -109,6 +165,12 @@ SELECT CONVERT(varchar, GETDATE(), 113) AS datetimetostring;
 
 -- Mon DD YYYY HH:MI:SS:MMMAM (or PM):
 SELECT CONVERT(varchar, GETDATE(), 109) AS datetimetostring;
+```
+
+```output
+Output:
+Employee hiredate conversion includes 00:00:00 because the source column is DATE.
+GETDATE() conversion examples vary with execution date/time.
 ```
 ### String to Date (Various formats):
 * You can convert a string in various formats to a date using the `CONVERT(date, arg2, arg3)` function.
@@ -129,6 +191,12 @@ SELECT CONVERT(date, 'Apr 15, 2023', 107) AS date;
 -- YYYYMMDD:
 SELECT CONVERT(date, '20230415', 112) AS date;
 ```
+
+```output
+Output:
+All five examples convert to:
+   2023-04-15
+```
 ### String to DateTime (Various formats):
 * You can convert a string in various formats to a datetime using the `CONVERT(datetime, arg2, arg3)` function, same like string to date but with different format codes.
 ```sql
@@ -147,6 +215,16 @@ SELECT CONVERT(datetime, 'Apr 15 2023 01:30:45:375', 109) AS datetime;
 -- YYYYMMDD HH:MI:SS:
 SELECT CONVERT(datetime, '20230415 13:30:45', 112) AS datetime;
 ```
+
+```output
+Output:
+Converted datetime values:
+   2023-04-15 13:30:45.000
+   2023-04-15 13:30:45.000
+   2023-04-15 13:30:45.000
+   2023-04-15 01:30:45.375
+   2023-04-15 13:30:45.000
+```
 ### DateTime and TimeZone:
 #### Date, Timezones, UTC, and Offsets:
 * **Date and Time**: In computing, dates and times are represented using various data types. A common approach is to use a datetime data type that includes both date and time information.
@@ -159,6 +237,12 @@ SELECT CONVERT(datetime, '20230415 13:30:45', 112) AS datetime;
 SELECT DATEADD(HOUR, 5, CAST(GETDATE() AS DATETIME)) AS adjusted_datetime;
 ```
 
+```output
+Output:
+Example Result: current server date/time adjusted by +5 hours.
+Value varies at execution time.
+```
+
 #### Cast a DateTime to DateTime with Timezone (in UTC, EST and IST TimeZones):
 * Create a date time variable and cast it as a DateTime with TimeZone data type
 * Here we cast it at different TimeZones (UTC, EST and IST)
@@ -169,6 +253,14 @@ SELECT
     (CAST('2024-04-17 15:30:00' AS DATETIME) AT TIME ZONE 'UTC' AT TIME ZONE 'Eastern Standard Time') AS EasternDateTime,
     (CAST('2024-04-17 15:30:00' AS DATETIME) AT TIME ZONE 'UTC' AT TIME ZONE 'India Standard Time') AS ISTDateTime;
 ```
+
+```output
+Output:
+OriginalDateTime: 2024-04-17 15:30:00
+UTCDateTime:      2024-04-17 15:30:00 +00:00
+EasternDateTime:  2024-04-17 11:30:00 -04:00
+ISTDateTime:      2024-04-17 21:00:00 +05:30
+```
 #### Cast a DateTime Timezone to another TimeZone:
 ```sql
 SELECT 
@@ -176,6 +268,12 @@ SELECT
     'ESTDateTime: ' + CONVERT(VARCHAR, 
         CAST(CAST('2024-04-17 15:30:00' AS DATETIME) AT TIME ZONE 'UTC' AT TIME ZONE 'Eastern Standard Time' AS DATETIME), 
         120) AS ESTDateTime;
+```
+
+```output
+Output:
+UTCDateTime: 2024-04-17 15:30:00
+ESTDateTime: 2024-04-17 11:30:00
 ```
 
 ##### [Back To Contents](../README.md)

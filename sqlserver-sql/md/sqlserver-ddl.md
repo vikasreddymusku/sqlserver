@@ -5,11 +5,12 @@
 ##### [Back To Contents](../README.md)
 
 # DDL - Data Definition Language
+
+> **[sqlserver-ddl.sql](../code/sqlserver-ddl.sql) [CTRL + CLICK]**
 * In SQL Server, DDL (Data Definition Language) encompasses a group of SQL commands that are used to create, modify, and remove the structure of database objects. These objects include tables, indexes, views, schemas, sequences, and more.
 * DDL statements are crucial for establishing the database schema, defining relationships between tables, and ensuring data integrity. They serve as the foundation for organizing and managing data within SQL Server databases.
 
 ## Primary DDL commands in SQL Server:
-> [sqlserver-ddl.sql](../code/sqlserver-ddl.sql) [CTRL + CLICK]
 ### CREATE:
 * Used to create new database objects such as tables, indexes, views, schemas, sequences, and other objects.
 ```sql
@@ -25,6 +26,13 @@ ALTER AUTHORIZATION ON SCHEMA::employees TO ti;
 ALTER USER ti WITH DEFAULT_SCHEMA = employees;
 ```
 
+```output
+Output:
+Schema created: employees
+User created: ti
+Schema owner/default schema configured for user ti.
+```
+
 * Create `employees.dept` table
 ```sql
 -- Create table employees.dept
@@ -34,6 +42,15 @@ CREATE TABLE employees.dept
   dname VARCHAR(14),
   loc VARCHAR(13)
 );
+```
+
+```output
+Output:
+Table created: employees.dept
+   | column | data_type   |
+   | deptno | INT         |
+   | dname  | VARCHAR(14) |
+   | loc    | VARCHAR(13) |
 ```
 * Create `employees.emp` table
 ```sql
@@ -49,6 +66,19 @@ CREATE TABLE employees.emp
   deptno     INT 
 );
 ```
+
+```output
+Output:
+Table created: employees.emp
+   | column     | data_type    |
+   | empno      | INT          |
+   | ename      | VARCHAR(10)  |
+   | job        | VARCHAR(9)   |
+   | mgr        | NUMERIC(4)   |
+   | sal        | NUMERIC(7,2) |
+   | commission | NUMERIC(7,2) |
+   | deptno     | INT          |
+```
 * Create `employees.salgrade` table
 ```sql
 -- Create table employees.salgrade
@@ -59,6 +89,15 @@ CREATE TABLE employees.salgrade
   hisal INT
 );
 ```
+
+```output
+Output:
+Table created: employees.salgrade
+   | column | data_type |
+   | grade  | INT       |
+   | losal  | INT       |
+   | hisal  | INT       |
+```
 * Create `employees.projects` table
 ```sql
 -- Create table employees.projects
@@ -68,6 +107,15 @@ CREATE TABLE employees.projects
   budget              NUMERIC(7,2),
   monthly_commission  NUMERIC(7,2)
 );
+```
+
+```output
+Output:
+Table created: employees.projects
+   | column             | data_type    |
+   | projectno          | INT          |
+   | budget             | NUMERIC(7,2) |
+   | monthly_commission | NUMERIC(7,2) |
 ```
 * Create `employees.emp_projects` table
 ```sql
@@ -80,6 +128,17 @@ CREATE TABLE employees.emp_projects
   start_date     DATE,
   end_date       DATE
 );
+```
+
+```output
+Output:
+Table created: employees.emp_projects
+   | column        | data_type |
+   | emp_projectno | INT       |
+   | empno         | INT       |
+   | projectno     | INT       |
+   | start_date    | DATE      |
+   | end_date      | DATE      |
 ```
 
 ### ALTER:
@@ -102,6 +161,12 @@ ALTER TABLE employees.emp_projects DROP COLUMN end_date;
 ALTER TABLE employees.emp_projects ADD end_date DATE;
 ```
 
+```output
+Output:
+ALTER statements completed and then reversed in the example.
+Final table structures return to their original column definitions.
+```
+
 ### DROP:
 * Deletes existing database objects, such as tables, indexes, or views.
 ```sql
@@ -114,6 +179,12 @@ CREATE TABLE employees.dept (
     dname   VARCHAR(100),
     loc VARCHAR(13)
 );
+```
+
+```output
+Output:
+Table employees.dept is dropped and recreated.
+Final columns: deptno INT, dname VARCHAR(100), loc VARCHAR(13).
 ```
 
 ##### [Back To Contents](../README.md)

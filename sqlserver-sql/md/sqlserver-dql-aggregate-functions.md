@@ -5,6 +5,8 @@
 ##### [Back To Contents](../README.md)
 
 # DQL - Aggregate Functions
+
+> **[sqlserver-dql-aggregate-functions.sql](../code/sqlserver-dql-aggregate-functions.sql) [CTRL + CLICK]**
 * Aggregate functions in SQL Server are used to perform calculations on a set of values and return a single value as a result.
 * They allow you to derive summary statistics or perform calculations across multiple rows in a table.
 * These functions can be combined with other clauses like GROUP BY, HAVING, and DISTINCT to perform more sophisticated analysis and summarization of data in SQL Server.
@@ -33,6 +35,14 @@ HAVING COUNT(*) > 3;
 SELECT YEAR(hiredate) AS hire_year, COUNT(*) AS num_employees 
 FROM employees.emp 
 GROUP BY YEAR(hiredate);
+```
+
+```output
+Output:
+total_employees = 44
+Department row counts: NULL=2, 10=9, 20=13, 30=15, 40=2, 50=3.
+Employees hired after 1985 with >3 employees by department: 10=4, 20=5, 30=5.
+The hire-year query returns counts grouped by year.
 ```
 ### SUM:
 * Calculates the sum of values in a numeric column.
@@ -65,6 +75,14 @@ GROUP BY deptno
 HAVING SUM(commission) > 500
 ORDER BY total_commission DESC;
 ```
+
+```output
+Output:
+total_salary = 72225.00
+Department salary totals: NULL=1000, 10=20200, 20=25875, 30=21100, 40=2550, 50=1500.
+Department commission totals: 10=750, 30=2850, 50=150; departments with no non-NULL commission return NULL.
+Commission total >500: dept 30=2850, dept 10=750.
+```
 ### AVG:
 * Computes the average of values in a numeric column.
 ```sql
@@ -94,6 +112,14 @@ FROM employees.emp
 GROUP BY job
 ORDER BY avg_salary DESC;
 ```
+
+```output
+Output:
+avg_salary = 1719.642857...
+Average salary after 1985 = 1410.526315...
+Departments with average salary >1500: 10, 20, 30.
+Highest average-salary job: president = 5000.00.
+```
 ### MAX:
 * Retrieves the maximum value in a column.
 ```sql
@@ -114,6 +140,13 @@ JOIN (
     GROUP BY deptno
 ) AS max_salaries ON e.deptno = max_salaries.deptno
  AND e.sal = max_salaries.max_salary;
+```
+
+```output
+Output:
+max_salary = 5000.00
+Highest salary employee: king (empno 7839) = 5000.00.
+Department maximum salaries: 10=5000, 20=3200, 30=2850, 40=1300, 50=500.
 ```
 ### MIN:
 * Retrieves the minimum value in a column.
@@ -184,6 +217,15 @@ JOIN (
     GROUP BY deptno
 ) AS salary_extremes ON e.deptno = salary_extremes.deptno 
 AND (e.sal = salary_extremes.max_salary OR e.sal = salary_extremes.min_salary);
+```
+
+```output
+Output:
+min_salary = 500.00
+Lowest commission = 0.00 -> turner.
+Department minimum salaries: 10=850, 20=600, 30=950, 40=1250, 50=500.
+Lowest-average department: techsupport = 500.00.
+Highest-average department: accounting = 2244.44.
 ```
 
 ##### [Back To Contents](../README.md)

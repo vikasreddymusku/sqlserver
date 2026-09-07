@@ -6,6 +6,8 @@
 ##### [Back To Contents](../README.md)
 
 # DQL - Analytical Functions
+
+> **[sqlserver-dql-analytical-functions.sql](../code/sqlserver-dql-analytical-functions.sql) [CTRL + CLICK]**
 * Analytical (window) functions perform calculations across a set of related rows while returning a calculated value for each row, often within a specified window or partition.
 * They enable performing advanced calculations and aggregations on your data for advanced data analysis and reports.
 * These functions are typically used in conjunction with the 'OVER' clause to define the window or subset of rows over which the function should operate.
@@ -37,6 +39,12 @@ SELECT  e.*
        ,avg(sal) OVER (PARTITION BY deptno) AS avg_dept_sal
        ,count(1) OVER (PARTITION BY deptno) AS emp_count_by_dept
 FROM   employees.emp e;
+```
+
+```output
+Output:
+One summary row is returned per department, plus windowed summary values on employee rows.
+Example dept 10: count=9, max=5000, min=850, total=20200, avg=2244.44.
 ```
 ### ROW_NUMBER():
 * Assigns a unique sequential number to each row, starting with 1.
@@ -84,6 +92,17 @@ SELECT  row_number() OVER (PARTITION BY deptno ORDER BY sal)
 FROM    employees.emp e
 ORDER BY deptno;
 ```
+
+```output
+Output:
+ROW_NUMBER by empno begins:
+   | empno | ename  | row_num |
+   |  7369 | smith  |       1 |
+   |  7499 | allen  |       2 |
+   |  7521 | ward   |       3 |
+   |  7566 | jones  |       4 |
+   |  7654 | martin |       5 |
+```
 ### RANK():
 * Assigns a rank based on the ORDER BY values. Rows with equal values receive the same rank, and gaps can appear after ties.
 ```sql
@@ -96,6 +115,19 @@ FROM employees.emp;
 SELECT deptno, ename, sal,
        RANK() OVER (PARTITION BY deptno ORDER BY sal DESC) AS rank
 FROM employees.emp;
+```
+
+```output
+Output:
+RANK by salary DESC:
+   | ename     | sal  | rank |
+   | king      | 5000 |    1 |
+   | futureman | 4500 |    2 |
+   | Dr. GOOD  | 3200 |    3 |
+   | steve     | 3100 |    4 |
+   | scott     | 3000 |    5 |
+   | ford      | 3000 |    5 |
+   | jones     | 2975 |    7 |
 ```
 ### DENSE_RANK():
 * Assigns a rank based on the ORDER BY values. Rows with equal values receive the same rank, without gaps after ties.
@@ -125,6 +157,19 @@ SELECT  e.*,
         ROW_NUMBER() OVER (PARTITION BY deptno ORDER BY sal DESC) AS rn
 FROM    employees.emp e;
 ```
+
+```output
+Output:
+DENSE_RANK by salary DESC:
+   | ename     | sal  | dense_rank |
+   | king      | 5000 |          1 |
+   | futureman | 4500 |          2 |
+   | Dr. GOOD  | 3200 |          3 |
+   | steve     | 3100 |          4 |
+   | scott     | 3000 |          5 |
+   | ford      | 3000 |          5 |
+   | jones     | 2975 |          6 |
+```
 ### NTILE(n):
 * Divides the result set into 'n' groups, assigning a group number to each row.
 ```sql
@@ -137,6 +182,12 @@ FROM employees.emp;
 SELECT deptno, ename, sal,
        NTILE(4) OVER (PARTITION BY deptno ORDER BY sal DESC) AS quartile
 FROM employees.emp;
+```
+
+```output
+Output:
+NTILE(4) assigns each employee to quartile 1-4 based on salary ordering.
+The first rows in descending salary order are assigned quartile 1.
 ```
 ### LAG():
 * Accesses data from a previous row in the result set.
@@ -151,6 +202,12 @@ FROM employees.emp;
 SELECT empno, ename, hiredate, sal,
        LAG(sal) OVER (ORDER BY hiredate) AS prev_sal
 FROM employees.emp;
+```
+
+```output
+Output:
+LAG returns each row's previous salary in the specified order.
+The first row in each ordered set has prev_sal = NULL.
 ```
 ### LEAD():
 * Accesses data from a following row in the result set.
@@ -181,6 +238,12 @@ SELECT deptno, ename, sal,
         AS sal_diff_with_next
 FROM employees.emp;
 ```
+
+```output
+Output:
+LEAD returns each row's next salary in the specified order.
+The last row in each ordered set has next_sal = NULL.
+```
 ### FIRST_VALUE():
 * Returns the first value in an ordered set of values.
 ```sql
@@ -197,6 +260,11 @@ SELECT empno, ename, deptno, sal,
        sal - FIRST_VALUE(sal) OVER (PARTITION BY deptno ORDER BY hiredate)
         AS sal_diff_with_first
 FROM employees.emp;
+```
+
+```output
+Output:
+FIRST_VALUE(sal) over salary order returns the first salary in the window for each row.
 ```
 ### LAST_VALUE():
 * Returns the last value in an ordered set of values.
@@ -226,6 +294,11 @@ SELECT deptno, ename, sal,
         sal ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) - sal
          AS sal_diff_with_last
 FROM employees.emp;
+```
+
+```output
+Output:
+LAST_VALUE(sal) with the full window frame returns the final salary in the ordered window for each row.
 ```
 
 ##### [Back To Contents](../README.md)

@@ -5,6 +5,8 @@
 ##### [Back To Contents](../README.md)
 
 # DDL - Constraints
+
+> **[sqlserver-ddl-constraints.sql](../code/sqlserver-ddl-constraints.sql) [CTRL + CLICK]**
 * In SQL Server, Data Definition Language (DDL) constraints are also used to enforce rules on the structure of a database table, ensuring data integrity and consistency by enforcing certain conditions on the data being inserted, updated, or deleted in the table.
 * These constraints are applied to columns when the table is created or altered.
 
@@ -38,6 +40,17 @@ CREATE TABLE staff (
 );
 ```
 
+```output
+Output:
+NOT NULL applied:
+   | table                  | column        |
+   | employees.emp          | empno         |
+   | employees.emp_projects | emp_projectno |
+   | employees.dept         | deptno        |
+   | employees.projects     | projectno     |
+Table created: staff (id, name NOT NULL, age)
+```
+
 ### UNIQUE Constraint:
 * This constraint ensures that the values in a column (or a group of columns) are unique across all rows in the table.
 ```sql
@@ -56,6 +69,15 @@ ALTER TABLE students
 ADD CONSTRAINT unique_ename UNIQUE (email, name);
 ```
 
+```output
+Output:
+UNIQUE constraints created:
+   | table         | constraint_name | columns     |
+   | employees.emp | unique_empno     | empno       |
+   | students      | unique_ename     | email, name |
+Table created: students
+```
+
 ### CHECK Constraint:
 * This constraint specifies a condition that must be satisfied for each row in the table.
 * It allows you to define custom rules for data validation.
@@ -72,6 +94,15 @@ CREATE TABLE products (
     quantity INT,
     CONSTRAINT chk_price_quantity CHECK (price > 0 AND quantity >= 0)
 );
+```
+
+```output
+Output:
+CHECK constraints created:
+   | table              | constraint_name   | rule                        |
+   | employees.projects | chk_budget        | budget > 0                  |
+   | products           | chk_price_quantity| price > 0 AND quantity >= 0 |
+Table created: products
 ```
 
 ### PRIMARY KEY Constraint:
@@ -100,6 +131,17 @@ CREATE TABLE customers (
 );
 ```
 
+```output
+Output:
+PRIMARY KEY constraints created:
+   | table                  | constraint_name | column        |
+   | employees.dept         | pk_dept         | deptno        |
+   | employees.emp          | pk_emp          | empno         |
+   | employees.projects     | pk_projects     | projectno     |
+   | employees.emp_projects | pk_empprojects  | emp_projectno |
+Table created: customers
+```
+
 ### FOREIGN KEY Constraint:
 * This constraint establishes a relationship between two tables.
 * It ensures referential integrity by enforcing a link between the data in the foreign key column(s) and the primary key or unique key in another table.
@@ -124,6 +166,16 @@ CREATE TABLE orders (
     customer_id INT REFERENCES customers(customer_id),
     order_date DATE
 );
+```
+
+```output
+Output:
+FOREIGN KEY constraints created:
+   | table                  | constraint_name | references                   |
+   | employees.emp          | fk_deptno       | employees.dept(deptno)       |
+   | employees.emp_projects | fk_emp_no       | employees.emp(empno)         |
+   | employees.emp_projects | fk_project_no   | employees.projects(projectno) |
+Table created: orders
 ```
 
 ##### [Back To Contents](../README.md)

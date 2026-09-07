@@ -6,6 +6,8 @@
 ##### [Back To Contents](../README.md)
 
 # DQL - Set Operations
+
+> **[sqlserver-dql-set-operations.sql](../code/sqlserver-dql-set-operations.sql) [CTRL + CLICK]**
 * Set operations in SQL are used to combine or compare the results of two or more queries.
 * These are essential for manipulating and combining data from multiple tables.
 * The main set operations include UNION, INTERSECT, and EXCEPT.
@@ -37,6 +39,14 @@ SELECT dname AS name FROM employees.dept
 UNION
 SELECT CAST(projectno AS VARCHAR) AS name FROM employees.projects;
 ```
+
+```output
+Output:
+Department/project UNION distinct values:
+   NULL, 1, 2, 3, 4, 5, 10, 20, 30, 40, 50
+
+The employee/project-name UNION and combined name UNION return distinct combined name lists.
+```
 ### UNION ALL:
 * This operator does same as UNION with including duplicate rows
 
@@ -48,6 +58,11 @@ SELECT CAST(projectno AS VARCHAR) AS name FROM employees.projects;
 SELECT deptno FROM employees.emp
 UNION ALL
 SELECT projectno AS deptno FROM employees.projects;
+```
+
+```output
+Output:
+49 rows returned (44 employee deptno rows + 5 project rows; duplicates are retained).
 ```
 ### INTERSECT:
 * The INTERSECT operator is used to retrieve the common rows that appear in the result sets of two or more SELECT statements. It removes duplicate rows by default.
@@ -67,6 +82,18 @@ SELECT empno FROM employees.emp
 INTERSECT
 SELECT empno FROM employees.emp_projects;
 ```
+
+```output
+Output:
+Grade INTERSECT projectno:
+   1
+   2
+   3
+   4
+   5
+
+Employee empno INTERSECT project empno: 24 rows returned.
+```
 ### EXCEPT:
 * The EXCEPT operator is used to retrieve the rows that appear in the first result set but not in the result sets of one or more subsequent SELECT statements. It removes duplicate rows by default.
 
@@ -85,6 +112,13 @@ SELECT empno FROM employees.emp_projects;
 SELECT grade FROM employees.salgrade
 EXCEPT
 SELECT projectno AS grade FROM employees.projects;
+```
+
+```output
+Output:
+Employee empno EXCEPT project empno: 20 rows returned.
+Grade EXCEPT projectno:
+   6
 ```
 
 ##### [Back To Contents](../README.md)

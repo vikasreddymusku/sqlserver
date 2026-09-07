@@ -6,6 +6,8 @@
 ##### [Back To Contents](../README.md)
 
 # Temp Tables
+
+> **[sqlserver-tsql-temp-tables.sql](../code/sqlserver-tsql-temp-tables.sql) [CTRL + CLICK]**
 Temporary tables are a form of temporary storage in SQL Server. A normal local temporary table exists for its session (or the creating stored procedure's scope) until it is explicitly dropped or its scope ends; global temporary tables have separate lifetime rules.
 
 ## Local Temp Tables (#)
@@ -30,6 +32,17 @@ BEGIN
 END
 ```
 
+```output
+Output:
+44 rows are copied into #temp_employees.
+The JOIN query returns 42 rows because two employees have no matching department.
+Representative rows:
+   | emp_id | employee_name |
+   |   7369 | smith         |
+   |   7499 | allen         |
+   |   7521 | ward          |
+```
+
 ## Global Temp Tables (##)
 Global temporary tables are also physical tables in tempdb and are visible to other sessions. Their names are prefixed with a double hash (##). SQL Server drops a global temporary table after the session that created it ends and no active task is still referencing it. Because of their global scope, naming and concurrency conflicts require care.
 
@@ -43,6 +56,12 @@ CREATE TABLE ##global_report (
 -- This table can be accessed by any active session until all sessions have disconnected.
 INSERT INTO ##global_report (report_id, report_data) VALUES (1, 'Initial data');
 SELECT * FROM ##global_report;
+```
+
+```output
+Output:
+   | report_id | report_data |
+   |         1 | Initial data|
 ```
 
 ## Table Variables (@)
@@ -63,6 +82,12 @@ BEGIN
   -- SQL Server 2019+ can use deferred compilation (compatibility level 150+) to improve this estimate.
   SELECT * FROM @employee_list;
 END
+```
+
+```output
+Output:
+9 department-10 rows are stored in @employee_list.
+Representative rows: king, clark, miller, newhire, tony.
 ```
 <img width="773" height="104" alt="image" src="https://github.com/user-attachments/assets/486b42cc-04d5-4844-a6e9-1611fce7a00c" />
 

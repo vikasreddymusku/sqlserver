@@ -6,6 +6,8 @@
 ##### [Back To Contents](../README.md)
 
 # Dynamic SQL
+
+> **[sqlserver-tsql-dynamic-sql.sql](../code/sqlserver-tsql-dynamic-sql.sql) [CTRL + CLICK]**
 Dynamic SQL is a powerful programming technique in which you build and execute a SQL statement as a string at runtime. This is a crucial skill for scenarios where elements of a query, such as table names, column lists, or WHERE clause filters, are not known until the code is executed. While dynamic SQL offers great flexibility, it requires careful implementation to avoid performance and security issues.
 
 ## Key Advantages
@@ -34,6 +36,12 @@ CREATE TABLE dynsql_test (
     ,test_string   VARCHAR(1000)
     ,test_decimal  DECIMAL(10,2)
 );
+```
+
+```output
+Output:
+Table created: dbo.dynsql_test
+Columns: test_id, test_date, test_string, test_decimal.
 ```
 ### Executing with EXEC()
 The EXEC() command runs a string literal or a string variable containing a SQL statement. It is the simplest method for dynamic SQL but is also the most dangerous.
@@ -71,6 +79,13 @@ EXEC(@sql);
 PRINT 'Rows Affected ' + CAST(@@rowcount AS VARCHAR);
 ```
 
+```output
+Output:
+The generated INSERT statement is printed.
+Rows Affected 1
+Inserted row: test_id=1, test_string=TEST, test_decimal=10.20; test_date uses the execution date.
+```
+
 ### Executing with sp_executesql
 sp_executesql is a system stored procedure that supports parameterized dynamic SQL and plan reuse. It is preferred when the dynamic values can be represented as parameters.
 
@@ -104,6 +119,12 @@ EXECUTE sp_executesql @sql, @params,
 PRINT 'Rows Affected ' + CAST(@@rowcount AS VARCHAR);
 ```
 
+```output
+Output:
+Rows Affected 1
+A second parameterized row is inserted with test_id=1, TEST, 10.20 and the execution date.
+```
+
 ### Dynamic SELECT with sp_executesql
 This is a common and secure use case where you need to build a dynamic WHERE clause.
 
@@ -128,6 +149,17 @@ SET @params = N'@p_deptName VARCHAR(100), @p_minSal DECIMAL(10,2)';
 EXEC sp_executesql @sql, @params,
                    @p_deptName = @deptName,
                    @p_minSal   = @minSal;
+```
+
+```output
+Output:
+The supplied parameters are ACCOUNTING and minimum salary 2000.
+On a case-insensitive collation, 4 rows are returned:
+   | ename     | job       | sal     | dname      |
+   | clark     | manager   | 2450.00 | accounting |
+   | king      | president | 5000.00 | accounting |
+   | tony      | manager   | 2900.00 | accounting |
+   | futureman | manager   | 4500.00 | accounting |
 ```
 ##### [Back To Contents](../README.md)
 ***

@@ -6,6 +6,8 @@
 ##### [Back To Contents](../README.md)
 
 # Stored Procedures
+
+> **[sqlserver-tsql-stored-procedures.sql](../code/sqlserver-tsql-stored-procedures.sql) [CTRL + CLICK]**
 Stored procedures are reusable T-SQL modules stored within the database. SQL Server compiles statements as needed and can cache and reuse execution plans, while plans may also be recompiled when appropriate.
 
 ## Key Characteristics and Advanced Concepts
@@ -33,6 +35,11 @@ END
 -- Execute the stored procedure
 EXEC employees.GetAllEmployees;
 ```
+
+```output
+Output:
+44 employee rows returned with columns empno, ename, job.
+```
 * We create a stored procedure named `GetAllEmployees` without any parameters.
 * The procedure contains a simple `SELECT` statement that retrieves the employee ID, employee name, and job title from the emp table.
 * To execute the stored procedure, we use the `EXEC` statement followed by the name of the procedure.
@@ -53,6 +60,11 @@ END
 
 -- Execute the stored procedure with the department name 'accounting'
 EXEC employees.GetEmployeesByDepartmentName @DeptName = 'accounting';
+```
+
+```output
+Output:
+9 rows returned for department 'accounting'.
 ```
 
 ## Procedure with Output param
@@ -77,6 +89,11 @@ EXEC employees.GetEmployeeCountByDepartment @DeptID = 20, @EmployeeCount = @Coun
 -- Display the result
 PRINT 'Number of employees in department: ' + CAST(@Count AS VARCHAR);
 ```    
+
+```output
+Output:
+Number of employees in department: 13
+```
 * We create a stored procedure named `employees.GetEmployeeCountByDepartment` with two parameters:
     * `@DeptID`: An input parameter of type INT that specifies which department to count employees in.
     * `@EmployeeCount`: An output parameter of type INT that will hold the count of employees.
@@ -96,6 +113,12 @@ EXEC employees.GetEmployeeCountByDepartment @DeptID = 10, @EmployeeCount = @Empl
 -- To see the result
 SELECT @EmployeeCountResult AS EmployeeCount;
 ```
+
+```output
+Output:
+   | EmployeeCount |
+   |             9 |
+```
 * This code declares a variable to hold the output, executes the procedure with a specific department ID, and retrieves the count of employees in that department.
 ### Using a SQL Script or Batch
 * You can execute the procedure within a SQL script or batch. This is useful when you need to run this as part of larger database operations
@@ -106,6 +129,11 @@ BEGIN
     PRINT 'Number of employees in department 2: ' + CAST(@Result AS VARCHAR(10));
 END
 ```    
+
+```output
+Output:
+Number of employees in department 2: 15
+```
 ### From Another Stored Procedure
 * You can call this procedure from another stored procedure. This is useful for modular programming in SQL Server
 ```sql
@@ -120,6 +148,11 @@ BEGIN
     ELSE
         PRINT 'Small or Medium Department';
 END
+```
+
+```output
+Output:
+Large Department
 ```
 ### Scheduling with SQL Server Agent
 You might want to schedule this procedure to run at specific intervals using SQL Server Agent. This is useful for regular audits or reports:
@@ -153,21 +186,46 @@ You can call this stored procedure in various ways depending on whether you want
 ```sql
 EXEC employees.GetEmployees;
 ```
+
+```output
+Output:
+44 rows returned.
+```
 * Providing a Value for @DeptID Only:
 ```sql
 EXEC employees.GetEmployees @DeptID = 10;
+```
+
+```output
+Output:
+9 rows returned for deptno 10.
 ```
 * Providing a Value for @Commission Only:
 ```sql
 EXEC employees.GetEmployees @Commission = 150;
 ```
+
+```output
+Output:
+5 rows: miller, newhire, bruce, mario, LUIGI.
+```
 * Providing Values for Both Parameters:
 ```sql
 EXEC employees.GetEmployees @DeptID = 30, @Commission = 500;
 ```
+
+```output
+Output:
+1 row: bucky.
+```
 * Providing Values Using Named Parameters (Out of Order):
 ```sql
 EXEC employees.GetEmployees @Commission = 200, @DeptID = 30;
+```
+
+```output
+Output:
+2 rows: sam, sIMON.
 ```
 
 ### Procedure with RETURN Statement
@@ -199,6 +257,12 @@ IF @Result = 1
 ELSE
     PRINT 'Department does not exist.';
 GO
+```
+
+```output
+Output:
+For @DeptName = 'sales': ReturnValue = 1.
+For a missing department name: ReturnValue = 0.
 ```
 
 ###  EXECUTE AS Clause for Security
@@ -236,6 +300,11 @@ GRANT EXECUTE ON employees.GetEmployeeCount_Secured TO GuestUser;
 -- EXEC employees.GetEmployeeCount_Secured;
 -- REVERT;
 ```
+
+```output
+Output:
+The procedure returns the employee rows allowed by its EXECUTE AS execution context.
+```
 This is a critical topic for production environments to ensure database security.
 
 ### Recompiling Stored Procedures
@@ -248,10 +317,20 @@ Over time, the query plans for stored procedures can become outdated as data cha
 ```sql
 EXEC employees.GetEmployeesByDepartmentName @DeptName = 'Sales' WITH RECOMPILE;
 ```
+
+```output
+Output:
+The procedure executes and returns the Sales department rows using a newly compiled plan for this execution.
+```
 * sp_recompile: This marks a stored procedure for recompilation the next time it runs.
 
 ```sql
 EXEC sp_recompile 'employees.GetEmployeesByDepartmentName';
+```
+
+```output
+Output:
+The procedure is marked to recompile the next time it executes.
 ```
 
 ### Benefits of Default Parameters

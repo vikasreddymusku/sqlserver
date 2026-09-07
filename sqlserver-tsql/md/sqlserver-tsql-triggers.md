@@ -6,6 +6,8 @@
 ##### [Back To Contents](../README.md)
 
 # Triggers
+
+> **[sqlserver-tsql-triggers.sql](../code/sqlserver-tsql-triggers.sql) [CTRL + CLICK]**
 * A trigger is a special kind of stored procedure that automatically runs (fires) in response to specific database events such as INSERT, UPDATE, or DELETE on a table or view.
 * Triggers can be used to enforce business rules, validate data, and perform other actions when data is inserted, updated, or deleted from a table.
 
@@ -40,6 +42,11 @@ CREATE TABLE trigger_test_log (
     ,eventval      XML
 );
 ```
+
+```output
+Output:
+Tables created: trigger_test, trigger_test_mirror, trigger_test_log.
+```
 ## Handling Multiple Rows (Crucial Concept)
 Triggers in SQL Server operate on an entire set of rows, not just one at a time. The inserted and deleted virtual tables can contain multiple rows if the triggering statement (e.g., INSERT, UPDATE, or DELETE) affected more than one record. Failing to account for multi-row operations will lead to bugs.
 
@@ -64,10 +71,22 @@ BEGIN
 END;
 ```
 
+```output
+Output:
+Trigger created: trg_multi_row_safe.
+```
+
 ```sql
 -- This will now work correctly
 INSERT INTO trigger_test (test_id, test_string)
 VALUES (10, 'abc'), (11, 'def');
+```
+
+```output
+Output:
+   | test_id | test_string |
+   |      10 | ABC         |
+   |      11 | DEF         |
 ```
 
 ## DML `FOR` Triggers
@@ -137,6 +156,15 @@ DELETE FROM trigger_test where test_id = 1;
 SELECT * FROM trigger_test;
 SELECT * FROM trigger_test_mirror;
 ```
+
+```output
+Output:
+INSERT test:
+trigger_test -> test_id 1, TEST, 100.20
+trigger_test_mirror -> test_id 1, action_type INSERT
+UPDATE tests add UPDATE rows to trigger_test_mirror.
+DELETE test removes test_id 1 from trigger_test and adds a DELETE mirror row.
+```
 ### Trigger to change values
 ```sql
 -- Create TRIGGER with ONLY INSERT handler 
@@ -185,6 +213,13 @@ SET    test_string = 'abc'
 WHERE  test_id = 2;
 -- See upper case 'abc'
 SELECT * FROM trigger_test;
+```
+
+```output
+Output:
+With INSERT-only trigger, inserted 'lower' becomes UPPER on insert.
+After a normal UPDATE to 'abc', value remains abc.
+After the trigger is altered to handle UPDATE, updating to 'abc' produces ABC.
 ```
 
 ## DML `AFTER` Triggers
@@ -256,6 +291,11 @@ SELECT * FROM trigger_test;
 SELECT * FROM trigger_test_mirror;
 ```
 
+```output
+Output:
+AFTER trigger test records INSERT, UPDATE and DELETE actions in trigger_test_mirror while the base table reflects the requested DML.
+```
+
 ## DML `INSTEAD OF` Triggers
 * `INSTEAD OF` trigger is a type of trigger that can be used to override the default behavior of an insert, update, or delete operation on a view or a table that has an associated `INSTEAD OF` trigger.
 * An `INSTEAD OF` trigger is executed instead of the original insert, update, or delete operation and can be used to modify the data being inserted, updated, or deleted, or to perform additional actions.
@@ -283,6 +323,11 @@ VALUES (3, GETDATE(), 'NEW LINE', 100.2)
 SELECT * FROM trigger_test;
 SELECT * FROM trigger_test_mirror;
 ```
+
+```output
+Output:
+INSTEAD OF INSERT on vw_trigger_test sends the inserted row to trigger_test_mirror with test_string converted to upper case.
+```
 ### `INSTEAD OF` on table
 ```sql
 CREATE OR ALTER trigger trg_instead_trigger_test_upper
@@ -309,6 +354,12 @@ WHERE  test_id = 2;
 SELECT * FROM trigger_test;
 ```
 
+```output
+Output:
+Inserted value 'lower' is stored as 'LOWER' by the INSTEAD OF INSERT trigger.
+The later UPDATE to 'abc' stores 'abc' because this trigger handles INSERT only.
+```
+
 ## DDL Triggers
 * DDL (Data Definition Language) trigger is a type of trigger that fires in response to a variety of DDL events that occur in the database.
 * DDL events include events like creating or altering tables, indexes, views, stored procedures, and user-defined functions.
@@ -331,6 +382,13 @@ DROP TABLE test1;
 SELECT * FROM trigger_test_log;
 ```
 
+```output
+Output:
+The CREATE TABLE and DROP TABLE test operations add two DDL-event log rows.
+Representative event types: CREATE_TABLE, DROP_TABLE.
+EVENTDATA() contains the detailed XML event payload.
+```
+
 ## Enable / Disable Trigger
 * To enable a disabled trigger, you can use the `ENABLE TRIGGER` statement with the same syntax as above. Once a trigger is enabled, it becomes active again and will fire when the corresponding event occurs.
 * It's important to note that disabling a trigger affects all users who access the table, not just the user who issued the `DISABLE TRIGGER` statement.
@@ -344,6 +402,11 @@ DISABLE TRIGGER ALL ON dbo.trigger_test;
 
 -- Drop DB triggers
 DROP TRIGGER trg_tinitiate_ddl ON DATABASE;  
+```
+
+```output
+Output:
+The trigger enable/disable statements change trigger state and DROP removes the database-level trigger; no result set is returned.
 ```
 
 ##### [Back To Contents](../README.md)

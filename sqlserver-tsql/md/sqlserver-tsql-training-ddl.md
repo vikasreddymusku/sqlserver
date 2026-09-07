@@ -6,6 +6,8 @@
 ##### [Back To Contents](../README.md)
 
 # Training Data Setup
+
+> **[sqlserver-tsql-training-ddl.sql](../code/sqlserver-tsql-training-ddl.sql) [CTRL + CLICK]**
 ### DDL
 ```sql
 -- Use tinitiate database
@@ -51,6 +53,13 @@ FOREIGN KEY(invoice_id) REFERENCES invoicing.invoice(invoice_id);
 ALTER TABLE invoicing.invoice_items ADD CONSTRAINT fk_product_id
 FOREIGN KEY(product_id) REFERENCES invoicing.products(product_id);
 ```
+
+```output
+Output:
+Schema created: invoicing
+Tables created: invoicing.products, invoicing.invoice, invoicing.invoice_items
+Primary and foreign key constraints are created as shown.
+```
 ### DML
 ```sql
 -- Products
@@ -77,6 +86,13 @@ VALUES
 (1003, 102, 3, 4, 15.00),
 (1004, 103, 4, 3, 7.50), 
 (1005, 103, 5, 2, 2.40); 
+```
+
+```output
+Output:
+Training data loaded:
+   | Products | Invoices | InvoiceItems |
+   |        5 |        3 |            5 |
 ```
 
 ##### [Back To Contents](../README.md)

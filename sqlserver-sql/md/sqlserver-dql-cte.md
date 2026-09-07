@@ -6,6 +6,8 @@
 ##### [Back To Contents](../README.md)
 
 # DQL - Common Table Expressions (CTEs)
+
+> **[sqlserver-dql-cte.sql](../code/sqlserver-dql-cte.sql) [CTRL + CLICK]**
 * In SQL Server, a Common Table Expression (CTE) is a temporary result set that you can reference within a SELECT, INSERT, UPDATE, or DELETE statement.
 * CTEs provide a way to write more readable and maintainable queries by breaking down complex queries into simpler parts.
 * CTEs are defined using the `WITH` keyword.
@@ -73,6 +75,20 @@ WITH RunningTotal AS (
 SELECT empno, ename, deptno, sal, running_total
 FROM RunningTotal;
 ```
+
+```output
+Output:
+Managers CTE: 5 rows -> jones, blake, clark, tony, futureman.
+Department counts:
+   | deptno | dname       | num_employees |
+   |     10 | accounting  |             9 |
+   |     20 | research    |            13 |
+   |     30 | sales       |            15 |
+   |     40 | operations  |             2 |
+   |     50 | techsupport |             3 |
+EmployeeProjects CTE: 24 rows returned.
+RankedEmployees and RunningTotal return one result row per employee.
+```
 ## Using Multiple CTEs
 * You can define multiple CTEs in a single query, separated by commas.
 ```sql
@@ -109,6 +125,19 @@ SELECT ts.deptno, ts.total_sal, tb.total_budget
 FROM TotalSalary ts
 JOIN TotalBudget tb ON ts.deptno = tb.deptno;
 ```
+
+```output
+Output:
+Total/average salary by department:
+   | deptno | total_sal | avg_sal |
+   | NULL   |   1000.00 | 1000.00 |
+   | 10     |  20200.00 | 2244.44 |
+   | 20     |  25875.00 | 1990.38 |
+   | 30     |  21100.00 | 1507.14 |
+   | 40     |   2550.00 | 1275.00 |
+   | 50     |   1500.00 |  500.00 |
+The second query returns total salary and assigned project budget by department.
+```
 ## Recursive CTEs
 * Recursive CTEs are used to perform operations like traversing hierarchical data or generating sequences.
 * Recursive CTEs consist of two parts: an anchor member and a recursive member.
@@ -143,6 +172,23 @@ WITH EmpHierarchy AS (
 -- Retrieve the management hierarchy
 SELECT *
 FROM EmpHierarchy;
+```
+
+```output
+Output:
+Sequence CTE:
+   1
+   2
+   3
+   4
+   5
+   6
+   7
+   8
+   9
+   10
+
+The hierarchy query returns the top-level employees and recursively follows manager relationships.
 ```
 ## Common Use Cases for CTEs
 * Breaking down complex queries into simpler, more manageable parts.

@@ -5,6 +5,8 @@
 ##### [Back To Contents](../README.md)
 
 # DML - Data Manipulation Language
+
+> **[sqlserver-dml.sql](../code/sqlserver-dml.sql) [CTRL + CLICK]**
 * In SQL Server, Data Manipulation Language (DML) consists of SQL commands that allow users to manipulate data within database objects.
 * DML commands are used to perform operations such as inserting, updating, and deleting data.
 
@@ -55,8 +57,10 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
 INSERT INTO employees.emp (empno, ename, sal, deptno)
  VALUES (15, '4F', 12000.00, 5000);
 ```
+
 ```output
-Output:  
+Output:
+Successful department rows:
    | deptno | dname      | loc  |
    |    111 | TECHNOLOGY | NULL |
    |    211 | FACTORY    | NULL |
@@ -65,17 +69,14 @@ Output:
    |   2000 | FOUNDRY    | NULL |
    |   3000 | STORES     | NULL |
 
-For employee 101:
+Employee inserted:
    | empno | ename    |     sal | deptno |
    |   101 | John Doe | 5000.00 |   1000 |
 
-After salary UPDATE:
-   | empno | ename    |     sal |
-   |   101 | John Doe | 6200.00 |
-
-After DELETE of employee 101:
-   No rows returned.
-
+Expected errors from the intentional invalid examples:
+   Duplicate primary/unique key violation
+   String or binary data would be truncated
+   Foreign key constraint violation
 ```
 
 ### UPDATE:
@@ -90,6 +91,16 @@ UPDATE employees.Emp_Projects SET End_Date = '2024-06-01'
  WHERE emp_projectno  = 1 AND empno = 101;
 ```
 
+```output
+Output:
+After salary UPDATE:
+   | empno | ename    |     sal |
+   |   101 | John Doe | 6200.00 |
+
+After project end-date UPDATE:
+   No rows matched emp_projectno = 1 AND empno = 101, so no project row is changed.
+```
+
 ### DELETE:
 * This command is used to remove one or more rows from a table based on a specified condition.
 ```sql
@@ -98,6 +109,12 @@ DELETE FROM employees.dept WHERE deptno = 3000;
 
 -- Remove an employee
 DELETE FROM employees.emp WHERE empno = 101;
+```
+
+```output
+Output:
+Department 3000: No rows returned.
+Employee 101: No rows returned.
 ```
 
 ##### [Back To Contents](../README.md)

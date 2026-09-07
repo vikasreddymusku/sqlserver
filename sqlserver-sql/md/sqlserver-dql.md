@@ -6,6 +6,8 @@
 ##### [Back To Contents](../README.md)
 
 # DQL - Data Query Language
+
+> **[sqlserver-dql.sql](../code/sqlserver-dql.sql) [CTRL + CLICK]**
 * In SQL Server, DQL (Data Query Language) refers to the subset of SQL (Structured Query Language) specifically designed for querying and retrieving data from a SQL Server database.
 * DQL primarily involves the use of SELECT statements to extract information from one or more tables within the database.
 
@@ -27,6 +29,21 @@ SELECT DISTINCT job FROM employees.emp;
 SELECT DISTINCT job AS employeejob FROM employees.emp;
 ```
 
+```output
+Output:
+SELECT *: 44 rows returned.
+First 5 employees by stored row order:
+   | empno | ename  | job      |
+   |  7369 | smith  | clerk    |
+   |  7499 | allen  | salesman |
+   |  7521 | ward   | salesman |
+   |  7566 | jones  | manager  |
+   |  7654 | martin | salesman |
+
+DISTINCT job / employeejob values:
+   analyst, assistant, clerk, intern, manager, operator, president, salesman, support, NULL
+```
+
 ## Commonly used clauses in SQL Server:
 * In SQL Server DQL, clauses are components of SQL statements that provide additional instructions or conditions to control the behavior of the query.
 * Clauses can be used in various SQL statements such as SELECT, INSERT, UPDATE, DELETE, and more.
@@ -42,6 +59,13 @@ SELECT * FROM employees.emp WHERE hiredate > '1982-01-01';
 
 -- Retrieve employees with a salary higher than a certain amount
 SELECT * FROM employees.emp WHERE sal > 2000;
+```
+
+```output
+Output:
+job = 'manager': 5 rows -> jones, blake, clark, tony, futureman
+hiredate > '1982-01-01': 31 rows returned.
+sal > 2000: 12 rows returned.
 ```
 ### GROUP BY Clause:
 * The GROUP BY clause is used to group rows that have the same values into summary rows.
@@ -60,6 +84,20 @@ GROUP BY job;
 SELECT deptno, AVG(commission) AS avg_commission
 FROM employees.emp
 GROUP BY deptno;
+```
+
+```output
+Output:
+Salary total by department:
+   | deptno | total_salary |
+   | NULL   |       1000.00 |
+   | 10     |      20200.00 |
+   | 20     |      25875.00 |
+   | 30     |      21100.00 |
+   | 40     |       2550.00 |
+   | 50     |       1500.00 |
+
+Employee counts by job and average commission by department are returned as grouped result sets.
 ```
 ### HAVING Clause:
 * The HAVING clause is used to filter groups of rows returned by a GROUP BY clause.
@@ -82,6 +120,24 @@ FROM employees.emp
 GROUP BY deptno
 HAVING SUM(sal) > 10000;
 ```
+
+```output
+Output:
+Departments with more than two employees:
+   | deptno | num_employees |
+   | 10     |             9 |
+   | 20     |            13 |
+   | 30     |            15 |
+   | 50     |             3 |
+
+Jobs with average salary > 2500:
+   | job       | avg_salary |
+   | analyst   |    2950.00 |
+   | manager   |    3135.00 |
+   | president |    5000.00 |
+
+Departments with salary total > 10000: 10, 20, 30.
+```
 ### ORDER BY Clause:
 * The ORDER BY clause is used to sort the result set based on specified columns.
 ```sql
@@ -101,6 +157,12 @@ SELECT *
 FROM employees.emp
 ORDER BY deptno ASC, sal DESC;
 ```
+
+```output
+Output:
+ORDER BY changes only the display order.
+Highest salaries begin with: king (5000), futureman (4500), Dr. GOOD (3200), steve (3100), scott/ford (3000).
+```
 ### TOP Clause:
 * The TOP clause is used to limit the number of rows returned by a query.
 ```sql
@@ -113,6 +175,20 @@ ORDER BY empno;
 SELECT TOP 10 *
 FROM employees.emp
 ORDER BY sal DESC;
+```
+
+```output
+Output:
+TOP 5 by empno:
+   | empno | ename  |
+   |  7369 | smith  |
+   |  7499 | allen  |
+   |  7521 | ward   |
+   |  7566 | jones  |
+   |  7654 | martin |
+
+TOP 10 highest salaries begin with king, futureman, Dr. GOOD, steve, scott/ford, jones, tony and blake.
+The final row can be carol or tintin because both have salary 2700 and the query has no secondary tie-breaker.
 ```
 
 ##### [Back To Contents](../README.md)
