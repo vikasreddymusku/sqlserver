@@ -9,7 +9,7 @@
 * DDL statements are crucial for establishing the database schema, defining relationships between tables, and ensuring data integrity. They serve as the foundation for organizing and managing data within SQL Server databases.
 
 ## Primary DDL commands in SQL Server:
->> [sqlserver-ddl.sql](../code/sqlserver-ddl.sql) [CTRL + CLICK]
+> [sqlserver-ddl.sql](../code/sqlserver-ddl.sql) [CTRL + CLICK]
 ### CREATE:
 * Used to create new database objects such as tables, indexes, views, schemas, sequences, and other objects.
 ```sql
